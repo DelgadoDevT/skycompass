@@ -12,12 +12,11 @@ import requests
 from datetime import datetime
 
 
-def api_fetch():
+def api_fetch(location):
     """
     Fetches weather data for a location using OpenWeatherMap API
     Returns the raw response from the API request
     """
-    location = input("Input a location for weather forecast: ")
 
     url = f"https://api.openweathermap.org/data/2.5/forecast?q={location}&units=metric&appid={api_key}"
     weather_raw = requests.get(url)
@@ -63,12 +62,12 @@ def common_overview(day_overview):
     return avg_overview
 
 
-def main():
+def process_data(location):
     """
     Main function for obtaining, processing and organizing selected meteorological data
     Returns a list of dictionaries with selected weather data over six days
     """
-    weather_raw = api_fetch()
+    weather_raw = api_fetch(location)
 
     if weather_raw.status_code == 200:
         weather_json = weather_raw.json()
@@ -117,11 +116,12 @@ def main():
                 }
             )
 
+        print("The data was fetched and processed without errors (200 - OK)")
+        return daily_weather
+
     elif weather_raw.status_code == 404:
-        print("This location does not exist")
+        print("This location does not exist (404 - Not Found)")
+        return 404
     else:
-        print("Error on fetching data from API")
-
-
-if __name__ == "__main__":
-    main()
+        print("Error on fetching data from API (400 - Bad Request)")
+        return 400

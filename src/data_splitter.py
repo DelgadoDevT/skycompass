@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 def get_days(daily_weather):
-    if daily_weather == 404 or daily_weather == 400:
+    if daily_weather == 404 or daily_weather == 400 or daily_weather == 409:
         daily_weather = {}
 
     days = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"]
@@ -21,7 +21,7 @@ def get_days(daily_weather):
 
 
 def get_temperatures(daily_weather, temp_type):
-    if daily_weather == 404 or daily_weather == 400:
+    if daily_weather == 404 or daily_weather == 400 or daily_weather == 409:
         return ["N/A"] * 6
 
     temperatures = []
@@ -38,3 +38,27 @@ def get_temperatures(daily_weather, temp_type):
         temperatures.append(f"{temp:.1f}º")
 
     return temperatures
+
+
+def get_overview(daily_weather):
+    if daily_weather == 404 or daily_weather == 400 or daily_weather == 409:
+        return ["N/A"] * 6
+
+    overview = []
+
+    for weather in daily_weather:
+        overview.append(weather["overview"])
+
+    return overview
+
+
+def get_wind_speed(daily_weather):
+    if daily_weather == 404 or daily_weather == 400 or daily_weather == 409:
+        return ["N/A"] * 6
+
+    wind_speed = []
+
+    for weather in daily_weather:
+        wind_speed.append(weather["wind_speed"])
+
+    return wind_speed

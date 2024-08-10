@@ -1,18 +1,16 @@
 from kivy.config import Config
-
 Config.set("graphics", "width", "360")
 Config.set("graphics", "height", "640")
 
 import sys
-import os
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+sys.path.append('src')
 
 from data_splitter import get_days, get_temperatures, get_overview, get_wind_speed
 from weather import process_data
 import webbrowser
 
 from kivy.app import App
+from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
@@ -29,7 +27,7 @@ class MyFloatLayout(FloatLayout):
         self.logo = Image(
             size_hint=(0.15, 0.15),
             pos_hint={"x": 0.03, "y": 0.85},
-            source="../images/skycompass_logo.png",
+            source="images/skycompass_logo.png",
         )
         self.add_widget(self.logo)
 
@@ -66,7 +64,7 @@ class MyFloatLayout(FloatLayout):
         self.openweather_logo = Image(
             size_hint=(0.2, 0.2),
             pos_hint={"center_x": 0.9, "center_y": 0.03},
-            source="../images/openweather_logo.png",
+            source="images/openweather_logo.png",
         )
         self.openweather_logo.texture_update()
         self.openweather_logo.size = self.openweather_logo.texture_size
@@ -123,11 +121,11 @@ class MyCenterLayout(FloatLayout):
         else:
             overview = get_overview(self.daily_weather)[index]
             img_path = {
-                "Clear": "../images/clear.png",
-                "Clouds": "../images/clouds.png",
-                "Snow": "../images/snow.png",
-                "Rain": "../images/rain.png",
-                "Thunderstorm": "../images/thunderstorm.png",
+                "Clear": "images/clear.png",
+                "Clouds": "images/clouds.png",
+                "Snow": "images/snow.png",
+                "Rain": "images/rain.png",
+                "Thunderstorm": "images/thunderstorm.png",
             }.get(overview, "")
 
             self.add_widget(
@@ -140,9 +138,9 @@ class MyCenterLayout(FloatLayout):
 
             wind_speeds = get_wind_speed(self.daily_weather)[index]
             img_path2 = {
-                "Light": "../images/light.png",
-                "Moderate": "../images/moderate.png",
-                "Strong": "../images/strong.png",
+                "Light": "images/light.png",
+                "Moderate": "images/moderate.png",
+                "Strong": "images/strong.png",
             }.get(wind_speeds, "")
 
             self.add_widget(
@@ -186,8 +184,12 @@ class MyCenterLayout(FloatLayout):
 class MyGridLayout(GridLayout):
     def __init__(self, center_layout, **kwargs):
         super(MyGridLayout, self).__init__(**kwargs)
+        window_width, window_height = Window.size
+        vertical_space_up = (400 * window_height) / 640
+        vertical_space_down = (40 * window_height) / 640
+        lateral_space =  (20 * window_width) / 360
         self.cols = 6
-        self.padding = [20, 400, 20, 40]
+        self.padding = [lateral_space, vertical_space_up, lateral_space, vertical_space_down]
         deep_blue = 139 / 255
         self.button_color = (0.0, 0.0, deep_blue, 1)
         self.daily_weather = 409
@@ -201,7 +203,7 @@ class MyGridLayout(GridLayout):
         max_temps = get_temperatures(daily_weather, "max")
         min_temps = get_temperatures(daily_weather, "min")
 
-        for i in range(6):
+        for i in range(5):
             day = days_week[i]
             max_temp = max_temps[i]
             min_temp = min_temps[i]

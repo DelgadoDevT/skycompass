@@ -65,7 +65,7 @@ def common_overview(day_overview):
 def process_data(location):
     """
     Main function for obtaining, processing and organizing selected meteorological data
-    Returns a list of dictionaries with selected weather data over six days
+    Returns a list of dictionaries with selected weather data over five/six days
     """
     weather_raw = api_fetch(location)
 

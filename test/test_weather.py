@@ -1,6 +1,6 @@
 """
 File: test_weather.py
-Author: João Delgado
+Author: DelgadoDevT
 Date: 2024-07-29
 Description: This script contains unit tests for the functions defined in weather.py.
              It includes tests for api_fetch, wind_class, common_overview, and process_data.

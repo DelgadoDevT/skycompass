@@ -1,6 +1,6 @@
 """
 File: weather.py
-Author: João Delgado
+Author: DelgadoDevT
 Date: 2024-07-29
 Description: This script fetches weather data from the OpenWeatherMap API, processes it, 
              and provides daily weather summaries including temperature, wind speed, and overview.

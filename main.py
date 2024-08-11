@@ -1,9 +1,20 @@
+"""
+File: main.py
+Author: DelgadoDevT
+Date: 2024-08-11
+Description: This script defines the main Kivy application for the SkyCompass weather app. 
+             It sets up the user interface and integrates various components to display weather data.
+License: MIT License
+"""
+
 from kivy.config import Config
+
 Config.set("graphics", "width", "360")
 Config.set("graphics", "height", "640")
 
 import sys
-sys.path.append('src')
+
+sys.path.append("src")
 
 from data_splitter import get_days, get_temperatures, get_overview, get_wind_speed
 from weather import process_data
@@ -22,6 +33,13 @@ from kivy.uix.label import Label
 
 class MyFloatLayout(FloatLayout):
     def __init__(self, **kwargs):
+        """
+        Initialize the floating layout with widgets including:
+        - A logo image
+        - A text input for location
+        - A search button
+        - Labels and logos for OpenWeather with hyperlink functionality
+        """
         super(MyFloatLayout, self).__init__(**kwargs)
 
         self.logo = Image(
@@ -72,15 +90,28 @@ class MyFloatLayout(FloatLayout):
         self.add_widget(self.openweather_logo)
 
     def set_grid_layout(self, grid_layout):
+        """
+        Set the grid layout and update it with a placeholder value.
+        Arguments: instance of MyGridLayout
+        """
         self.grid_layout = grid_layout
         self.grid_layout.update(409)
 
     def button_click(self, button):
+        """
+        Handle the search button click event by processing the location input and updating the grid layout.
+        Arguments: instance of Button
+        """
         location = self.location_input.text
         daily_weather = process_data(location)
         self.grid_layout.update(daily_weather)
 
     def hyperlink(self, instance, touch):
+        """
+        Open the OpenWeather website when the label or logo is clicked.
+        Arguments: widget instance, touch event
+        Returns: True if hyperlink is clicked, otherwise False
+        """
         if instance.collide_point(*touch.pos):
             if touch.button == "left":
                 webbrowser.open("https://openweathermap.org/")
@@ -90,10 +121,17 @@ class MyFloatLayout(FloatLayout):
 
 class MyCenterLayout(FloatLayout):
     def __init__(self, **kwargs):
+        """
+        Initialize the central layout with default daily weather set to 409 (error code).
+        """
         super(MyCenterLayout, self).__init__(**kwargs)
         self.daily_weather = 409
 
     def daily_button_click(self, index, daily_weather):
+        """
+        Update the layout based on the selected day's weather data.
+        Arguments: index of the selected day, weather data
+        """
         self.daily_weather = daily_weather
         self.clear_widgets()
 
@@ -183,19 +221,32 @@ class MyCenterLayout(FloatLayout):
 
 class MyGridLayout(GridLayout):
     def __init__(self, center_layout, **kwargs):
+        """
+        Initialize the grid layout with weather buttons for five days.
+        Arguments: instance of MyCenterLayout
+        """
         super(MyGridLayout, self).__init__(**kwargs)
         window_width, window_height = Window.size
         vertical_space_up = (400 * window_height) / 640
         vertical_space_down = (40 * window_height) / 640
-        lateral_space =  (20 * window_width) / 360
+        lateral_space = (20 * window_width) / 360
         self.cols = 6
-        self.padding = [lateral_space, vertical_space_up, lateral_space, vertical_space_down]
+        self.padding = [
+            lateral_space,
+            vertical_space_up,
+            lateral_space,
+            vertical_space_down,
+        ]
         deep_blue = 139 / 255
         self.button_color = (0.0, 0.0, deep_blue, 1)
         self.daily_weather = 409
         self.center_layout = center_layout
 
     def update(self, daily_weather):
+        """
+        Update the grid layout with buttons for each day.
+        Arguments: weather data
+        """
         self.clear_widgets()
         self.daily_weather = daily_weather
 
@@ -226,6 +277,9 @@ class MyGridLayout(GridLayout):
 
 class MainLayout(FloatLayout):
     def __init__(self, **kwargs):
+        """
+        Initialize the main layout with background and sub-layouts.
+        """
         super(MainLayout, self).__init__(**kwargs)
 
         red, green, blue = 26 / 255, 26 / 255, 51 / 255
@@ -246,12 +300,20 @@ class MainLayout(FloatLayout):
         self.add_widget(self.center_layout)
 
     def update_bg(self, background, value):
+        """
+        Update the background rectangle size and position.
+        Arguments: instance of Rectangle, new size or position
+        """
         self.bgrect.pos = self.pos
         self.bgrect.size = self.size
 
 
 class SkyCompass(App):
     def build(self):
+        """
+        Build the Kivy application with the main layout.
+        Returns: MainLayout instance
+        """
         return MainLayout()
 
 

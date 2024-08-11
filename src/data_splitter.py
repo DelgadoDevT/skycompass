@@ -1,9 +1,23 @@
+"""
+File: data_splitter.py
+Author: DelgadoDevT
+Date: 2024-08-11
+Description: This script contains helper functions that process the output from process_data in weather.py
+             and create lists with the selected weather elements.
+License: MIT License
+"""
+
 from datetime import datetime
 
-
 def get_days(daily_weather):
-    if daily_weather == 404 or daily_weather == 400 or daily_weather == 409:
-        daily_weather = {}
+    """
+    Process the data from daily_weather to make a list of abbreviated day names.
+    Arguments: processed daily_weather
+    Returns: List of five corresponding days of the week.
+             Returns ["N/A"] * 5 for error codes (404, 400, 409).
+    """
+    if daily_weather in [404, 400, 409]:
+        return ["N/A"] * 5
 
     days = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"]
     days_week = ["N/A"] * 5
@@ -19,9 +33,14 @@ def get_days(daily_weather):
 
     return days_week
 
-
 def get_temperatures(daily_weather, temp_type):
-    if daily_weather == 404 or daily_weather == 400 or daily_weather == 409:
+    """
+    Process the data from daily_weather to make a list of maximum or minimum temperatures.
+    Arguments: processed daily_weather and the 'max' or 'min'
+    Returns: List of five temperatures formatted as strings with one decimal place.
+             Returns ["N/A"] * 5 for error codes (404, 400, 409).
+    """
+    if daily_weather in [404, 400, 409]:
         return ["N/A"] * 5
 
     temperatures = []
@@ -33,15 +52,20 @@ def get_temperatures(daily_weather, temp_type):
             temp = weather["temperature_min"]
         else:
             print("Invalid temperature type. Use 'max' or 'min'.")
-            return
+            return ["N/A"] * 5
 
         temperatures.append(f"{temp:.1f}º")
 
     return temperatures
 
-
 def get_overview(daily_weather):
-    if daily_weather == 404 or daily_weather == 400 or daily_weather == 409:
+    """
+    Process the data from daily_weather to make a list of weather overviews for five days.
+    Arguments: processed daily_weather
+    Returns: List of five weather overviews.
+             Returns ["N/A"] * 5 for error codes (404, 400, 409).
+    """
+    if daily_weather in [404, 400, 409]:
         return ["N/A"] * 5
 
     overview = []
@@ -51,9 +75,14 @@ def get_overview(daily_weather):
 
     return overview
 
-
 def get_wind_speed(daily_weather):
-    if daily_weather == 404 or daily_weather == 400 or daily_weather == 409:
+    """
+    Process the data from daily_weather to make a list of wind speeds for five days.
+    Arguments: processed daily_weather
+    Returns: List of five wind speeds.
+             Returns ["N/A"] * 5 for error codes (404, 400, 409).
+    """
+    if daily_weather in [404, 400, 409]:
         return ["N/A"] * 5
 
     wind_speed = []

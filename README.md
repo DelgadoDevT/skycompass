@@ -18,12 +18,17 @@ A simple mobile weather app using Python with the Kivy framework and the OpenWea
  git clone https://github.com/DelgadoDevT/skycompass.git
 ```
 
-2. Create a virtual environment:
+2. Create a file named `config.py` inside the `src` directory and write your OpenWeatherMap API key in it. To obtain the API key, you need to create an account on OpenWeatherMap and select the "5 Day/3 Hour Forecast" option. Write the file as the following:
+```bash
+api_key = 'your key'
+```
+
+3. Create a virtual environment:
 ```bash
 python -m venv kivy_venv
  ```
 
-3. Activate the virtual environment:
+4. Activate the virtual environment:
 ```bash
 # Windows:
 kivy_venv\Scripts\activate
@@ -32,7 +37,7 @@ kivy_venv\Scripts\activate
 source kivy_venv/bin/activate
 ```
 
-4. Install Kivy:
+5. Install Kivy:
 ```bash
 python -m pip install "kivy[base]" kivy_examples
 ```
